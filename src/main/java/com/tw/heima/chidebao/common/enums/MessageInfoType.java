@@ -9,13 +9,14 @@ import lombok.Getter;
  */
 @Getter
 public enum MessageInfoType {
-    PAYMENT_SUCCEEDED("200", "订单支付成功"),
-    ORDER_NOT_EXIST("300", "订单不存在"),
-    NOT_SUFFICIENT_FUNDS("400", "订单支付失败，账户余额不足"),
+    PAYMENT_SUCCEEDED("200", "保证金支付成功"),
+    ORDER_NOT_EXIST("300", "请先办理竞买登记"),
+    NOT_SUFFICIENT_FUNDS("400", "支付失败，账户余额不足"),
     PAYMENT_SYSTEM_EXCEPTION("500", "系统异常，请稍后重试"),
 
-    SIGN_SUCCEEDED("200", "餐品签收成功"),
-    SIGN_FAILED("200", "餐品签收失败");
+    SIGN_ING("200", "成交协议签约已受理"),
+    SIGN_SUCCEEDED("200", "成交协议签署成功"),
+    SIGN_FAILED("200", "成交协议签署失败");
 
 
 

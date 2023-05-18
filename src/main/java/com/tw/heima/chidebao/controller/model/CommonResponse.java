@@ -19,6 +19,10 @@ public class CommonResponse {
         return CommonResponse.builder().code(MessageInfoType.PAYMENT_SUCCEEDED.getCode()).message(MessageInfoType.PAYMENT_SUCCEEDED.getName()).build();
     }
 
+    public static CommonResponse signIng() {
+        return CommonResponse.builder().code(MessageInfoType.SIGN_ING.getCode()).message(MessageInfoType.SIGN_ING.getName()).build();
+    }
+
     public static CommonResponse signSuccess() {
         return CommonResponse.builder().code(MessageInfoType.SIGN_SUCCEEDED.getCode()).message(MessageInfoType.SIGN_SUCCEEDED.getName()).build();
     }

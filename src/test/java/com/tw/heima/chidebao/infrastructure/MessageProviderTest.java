@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
 
 /**
  * @author yadong.liu
@@ -25,8 +26,16 @@ public class MessageProviderTest {
     KafkaMqProducer producer;
 
     @Test
-    public void should_return_send_message_successful_when_send_refund_request () {
-        Message message = Message.builder().orderId("11223344").signTime("2023-3-19 12:33:00").signName("小明").storeName("KFC").topic("order").tag("order_tag").build();
+    public void should_return_send_message_successful_when_send_refund_request() {
+        Message message = new Message(
+                "order",
+                "order_tag",
+                LocalDateTime.now(),
+                "11223344",
+                "2023-3-19 12:33:00",
+                "小明",
+                "KFC");
+
         Mockito.when(producer.send(message)).thenReturn(MqResponse.builder().code(200).message("发送消息成功").build());
 
         MqResponse mqResponse = messageProvider.send(message);

@@ -17,11 +17,11 @@ import java.util.Objects;
  * @create 2023−03-18 6:46 下午
  */
 @Component
-public class FoodBookClient {
+public class ThirdPaymentClient {
 
     private final PaymentFeignClient paymentFeignClient;
 
-    public FoodBookClient(PaymentFeignClient paymentFeignClient) {
+    public ThirdPaymentClient(PaymentFeignClient paymentFeignClient) {
         this.paymentFeignClient = paymentFeignClient;
     }
 

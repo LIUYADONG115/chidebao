@@ -9,10 +9,10 @@ import lombok.Getter;
  */
 @Getter
 public enum OrderStatus {
-    ORDER_NOT_PAYMENT(1, "餐品订单未支付"),
-    ORDER_PAYING(2, "餐品订单正在支付"),
-    ORDER_PAYMENT_SUCCESS(3, "餐品订单支付成功"),
-    ORDER_PAYMENT_FAILED(4, "餐品订单支付失败");
+    ORDER_NOT_PAYMENT(1, "请先办理竞买登记"),
+    ORDER_PAYING(2, "保证金正在支付"),
+    ORDER_PAYMENT_SUCCESS(3, "保证金支付成功"),
+    ORDER_PAYMENT_FAILED(4, "保证金支付失败");
 
     int code;
     String name;

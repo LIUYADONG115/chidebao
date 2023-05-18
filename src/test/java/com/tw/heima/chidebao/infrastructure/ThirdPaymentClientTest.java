@@ -21,10 +21,10 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @create 2023−03-19 1:45 上午
  */
 @SpringBootTest
-public class FoodBookClientTest {
+public class ThirdPaymentClientTest {
 
     @InjectMocks
-    FoodBookClient foodBookClient;
+    ThirdPaymentClient thirdPaymentClient;
 
     @Mock
     PaymentFeignClient paymentFeignClient;
@@ -34,7 +34,7 @@ public class FoodBookClientTest {
         PaymentRequestInfo request = PaymentRequestInfo.builder().bankAccount("zhongguoyinhang123").paymentAmount(35.5).build();
         Mockito.when(paymentFeignClient.payment(request))
                 .thenReturn(PaymentResponse.builder().code(200).message("支付成功").build());
-        PaymentResponse paymentResponse = foodBookClient.pay(request);
+        PaymentResponse paymentResponse = thirdPaymentClient.pay(request);
 
         Assertions.assertThat(paymentResponse.getCode()).isEqualTo(200);
         Assertions.assertThat(paymentResponse.getMessage()).isEqualTo("支付成功");
@@ -55,7 +55,7 @@ public class FoodBookClientTest {
                         .message(ThirdPartyExceptionCode.INSUFFICIENT_BALANCE.getMessage())
                         .build());
 
-        Throwable throwable = Assertions.catchThrowable(() -> foodBookClient.pay(request));
+        Throwable throwable = Assertions.catchThrowable(() -> thirdPaymentClient.pay(request));
         Assertions.assertThat(throwable).isInstanceOf(PaymentException.class).hasMessage(MessageInfoType.NOT_SUFFICIENT_FUNDS.getName());
 
         ArgumentCaptor<PaymentRequestInfo> captor = ArgumentCaptor.forClass(PaymentRequestInfo.class);
@@ -74,7 +74,7 @@ public class FoodBookClientTest {
                         .message(ThirdPartyExceptionCode.SYSTEM_ERROR.getMessage())
                         .build());
 
-        Throwable throwable = Assertions.catchThrowable(() -> foodBookClient.pay(request));
+        Throwable throwable = Assertions.catchThrowable(() -> thirdPaymentClient.pay(request));
         Assertions.assertThat(throwable).isInstanceOf(PaymentException.class).hasMessage(MessageInfoType.PAYMENT_SYSTEM_EXCEPTION.getName());
 
         ArgumentCaptor<PaymentRequestInfo> captor = ArgumentCaptor.forClass(PaymentRequestInfo.class);

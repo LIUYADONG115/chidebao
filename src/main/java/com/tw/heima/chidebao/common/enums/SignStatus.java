@@ -9,10 +9,10 @@ import lombok.Getter;
  */
 @Getter
 public enum SignStatus {
-    ORDER_NOT_SIGN(1, "餐品未签收"),
-    ORDER_SIGNING(2, "签收确认中"),
-    ORDER_SIGN_SUCCESS(3, "签收成功"),
-    ORDER_SIGN_FAILED(4, "签收失败");
+    ORDER_NOT_SIGN(1, "成交协议未签署"),
+    ORDER_SIGNING(2, "成交协议签署中"),
+    ORDER_SIGN_SUCCESS(3, "成交协议签署成功"),
+    ORDER_SIGN_FAILED(4, "成交协议签署失败");
 
     int code;
     String name;

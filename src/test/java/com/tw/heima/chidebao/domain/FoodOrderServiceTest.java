@@ -3,7 +3,7 @@ package com.tw.heima.chidebao.domain;
 
 import com.tw.heima.chidebao.common.enums.MessageInfoType;
 import com.tw.heima.chidebao.controller.model.CommonResponse;
-import com.tw.heima.chidebao.infrastructure.FoodBookClient;
+import com.tw.heima.chidebao.infrastructure.ThirdPaymentClient;
 import com.tw.heima.chidebao.infrastructure.MessageProvider;
 import com.tw.heima.chidebao.infrastructure.MqResponse;
 import com.tw.heima.chidebao.infrastructure.model.Message;
@@ -37,7 +37,7 @@ public class FoodOrderServiceTest {
     MessageRepo messageRepo;
 
     @Mock
-    FoodBookClient foodBookClient;
+    ThirdPaymentClient thirdPaymentClient;
 
     @Mock
     MessageProvider messageProvider;
@@ -51,7 +51,7 @@ public class FoodOrderServiceTest {
 
         Assertions.assertThat(commonResponse.getCode()).isEqualTo(MessageInfoType.PAYMENT_SUCCEEDED.getCode());
         Assertions.assertThat(commonResponse.getMessage()).isEqualTo(MessageInfoType.PAYMENT_SUCCEEDED.getName());
-        Mockito.verify(foodBookClient).pay(Mockito.any(PaymentRequestInfo.class));
+        Mockito.verify(thirdPaymentClient).pay(Mockito.any(PaymentRequestInfo.class));
         Mockito.verify(orderProcessRepo, Mockito.times(2)).save(Mockito.any(OrderEntity.class));
     }
 
@@ -69,7 +69,7 @@ public class FoodOrderServiceTest {
     @Test
     public void should_return_not_sufficient_funds_when_order_status_is_not_payment() {
         Mockito.when(orderProcessRepo.findByOrderId("11223344")).thenReturn(OrderEntity.builder().orderId("11223344").storeName("KFC").paymentAmount(18.56).paymentStatus(1).signStatus(1).build());
-        Mockito.when(foodBookClient.pay(Mockito.any(PaymentRequestInfo.class))).thenThrow(new PaymentException(MessageInfoType.NOT_SUFFICIENT_FUNDS));
+        Mockito.when(thirdPaymentClient.pay(Mockito.any(PaymentRequestInfo.class))).thenThrow(new PaymentException(MessageInfoType.NOT_SUFFICIENT_FUNDS));
 
         CommonResponse commonResponse = foodOrderService.handlePayment("11223344", "ACQUISITION", 34.67);
 
@@ -82,7 +82,7 @@ public class FoodOrderServiceTest {
     public void should_return_payment_system_exception_when_order_status_is_not_payment() {
         Mockito.when(orderProcessRepo.findByOrderId("11223344")).thenReturn(OrderEntity.builder().orderId("11223344").storeName("KFC").paymentAmount(18.56).paymentStatus(1).signStatus(1).build());
 
-        Mockito.when(foodBookClient.pay(Mockito.any(PaymentRequestInfo.class))).thenThrow(new PaymentException(MessageInfoType.PAYMENT_SYSTEM_EXCEPTION));
+        Mockito.when(thirdPaymentClient.pay(Mockito.any(PaymentRequestInfo.class))).thenThrow(new PaymentException(MessageInfoType.PAYMENT_SYSTEM_EXCEPTION));
         CommonResponse commonResponse = foodOrderService.handlePayment("11223344", "ACQUISITION", 34.67);
         Assertions.assertThat(commonResponse.getCode()).isEqualTo(MessageInfoType.PAYMENT_SYSTEM_EXCEPTION.getCode());
         Assertions.assertThat(commonResponse.getMessage()).isEqualTo(MessageInfoType.PAYMENT_SYSTEM_EXCEPTION.getName());
@@ -106,7 +106,7 @@ public class FoodOrderServiceTest {
     @Test
     public void should_return_sign_order_not_exist() {
         Mockito.when(orderProcessRepo.findByOrderId("11223344")).thenReturn(OrderEntity.builder().orderId("11223344").storeName("KFC").paymentAmount(18.56).paymentStatus(1).signStatus(1).build());
-        Mockito.when(foodBookClient.pay(Mockito.any(PaymentRequestInfo.class))).thenThrow(new PaymentException(MessageInfoType.ORDER_NOT_EXIST));
+        Mockito.when(thirdPaymentClient.pay(Mockito.any(PaymentRequestInfo.class))).thenThrow(new PaymentException(MessageInfoType.ORDER_NOT_EXIST));
 
         CommonResponse commonResponse = foodOrderService.handleSign("1", "小明","2023-3-19 12:33:00");
 
