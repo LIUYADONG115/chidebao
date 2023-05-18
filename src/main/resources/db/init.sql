@@ -3,4 +3,6 @@ CREATE TABLE IF NOT EXISTS t_ordinary_order (id integer not null, order_id varch
 
 CREATE TABLE IF NOT EXISTS t_message (id integer not null, business_id varchar(255), content varchar(255), primary key (id));
 
-INSERT INTO t_ordinary_order (id, order_id,store_name, payment_amount, payment_status,sign_status) VALUES (1,'326118','KFC', 35.42, 1,1);
+INSERT INTO t_ordinary_order (id, order_id,store_name, payment_amount, payment_status,sign_status) VALUES (1,'123','paiyipai', 100.0, 1,1);
+
+INSERT INTO t_ordinary_order (id, order_id,store_name, payment_amount, payment_status,sign_status) VALUES (2,'456','paiyipai', 100.0, 1,1);

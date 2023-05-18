@@ -1,24 +1,38 @@
 # chidebao
 heima code
+
+# RocketMQ环境准备
+以下载社区5.1.0的源码包举例：
+1：下载https://rocketmq.apache.org/download/
+2：解压后执行：mvn -Prelease-all -DskipTests -Dspotbugs.skip=true clean install -U
+3：启动NameServer：nohup sh bin/mqnamesrv &
+4：启动Broker：nohup sh bin/mqbroker -n localhost:9876 --enable-proxy &
+5：测试完成后关闭服务器：
+    sh bin/mqshutdown broker895
+    sh bin/mqshutdown namesrv
 # sample
-1:订单支付接口：http://localhost:8080/contracts/11223344/private-order-pay
+1:保证金支付接口：http://localhost:8090/bidder-contracts/123/deposit-payment-request
 
 请求参数样例：
 {
-"amount": 100.0,
-"orderStatus": "ACQUISITION"
+"paymentAmount": 50.0,
+"bankAccount": "zhongguoyinhang123"
 }
 
 返回样例：
 {
 "code": "200",
-"message": "订单支付成功"
+"message": "保证金支付成功"
 }
+
+注意：
+    1.用户甲（协议ID：123）和用户乙（协议ID：456）都只有100元，根据题目要求同一拍品保证金支付成功一次以后，不可二次支付。
+    2.如果在次需要验证账户余额不足场景请切换账户
 
 
 
 2:订单签收确认接口：
-http://localhost:8080/purchase-orders/326118/sign/confirmation
+http://localhost:8090/bidder-contracts/123/sign-deal-protocol-request
 
 请求参数样例：
 {
@@ -29,5 +43,5 @@ http://localhost:8080/purchase-orders/326118/sign/confirmation
 返回样例：
 {
 "code": "200",
-"message": "餐品签收成功"
+"message": "成交协议签约已受理"
 }
