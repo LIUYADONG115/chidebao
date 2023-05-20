@@ -18,7 +18,7 @@ public class OrderEntity {
     @Id
     private Integer id;
 
-    private String orderId;
+    private String userId;
 
     private String storeName;
 
