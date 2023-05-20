@@ -44,4 +44,18 @@ public class BidderController {
         System.out.println("接收到的orderId："+orderId);
         return bidderService.handleSign(orderId, orderSignDTO.getSignName(),orderSignDTO.getSignTime());
     }
+
+
+    /**
+     * 查看成交协议签署结果
+     * @param orderId
+     * @return
+     */
+    @GetMapping("{id}/sign-deal-protocol-request")
+    public CommonResponse getDealSign(@PathVariable("id") String orderId) {
+        System.out.println("接收到的orderId："+orderId);
+        return bidderService.getSignStatus(orderId);
+    }
+
+
 }
