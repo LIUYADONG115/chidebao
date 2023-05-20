@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ChidebaoApplication {
+public class PaiyipaiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ChidebaoApplication.class, args);
+        SpringApplication.run(PaiyipaiApplication.class, args);
     }
 
 }

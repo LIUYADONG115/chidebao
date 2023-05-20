@@ -20,11 +20,11 @@ public class Message {
     private String signName;
     private String storeName;
 
-    public Message(String topic, String tag, LocalDateTime messageStartTime, String orderId, String signTime, String signName, String storeName) {
+    public Message(String topic, String tag, LocalDateTime messageStartTime, String userId, String signTime, String signName, String storeName) {
         this.topic = topic;
         this.tag = tag;
         this.messageStartTime = messageStartTime;
-        this.userId = orderId;
+        this.userId = userId;
         this.signTime = signTime;
         this.signName = signName;
         this.storeName = storeName;
