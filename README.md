@@ -1,19 +1,24 @@
-# chidebao
+# paiyipai
 heima code
 
 # RocketMQ环境准备
 以下载社区5.1.0的二进制包举例：(参考网址：https://rocketmq.apache.org/zh/docs/quickStart/01quickstart/)
-1：下载https://rocketmq.apache.org/download/
-2：解压后执行：mvn -Prelease-all -DskipTests -Dspotbugs.skip=true clean install -U
-3：启动NameServer：nohup sh bin/mqnamesrv &
-4：启动Broker：nohup sh bin/mqbroker -n localhost:9876 --enable-proxy &
-5：测试MQ
+<br>1：下载https://rocketmq.apache.org/download/
+<br>2：解压后执行：mvn -Prelease-all -DskipTests -Dspotbugs.skip=true clean install -U
+<br>3：启动NameServer：nohup sh bin/mqnamesrv &
+<br>4：启动Broker：nohup sh bin/mqbroker -n localhost:9876 --enable-proxy &
+<br>5：测试MQ
     export NAMESRV_ADDR=localhost:9876
     测试生产者：sh bin/tools.sh org.apache.rocketmq.example.quickstart.Producer
     测试消费者：sh bin/tools.sh org.apache.rocketmq.example.quickstart.Consumer
-6：测试完成后关闭服务器：
+<br>6：测试完成后关闭服务器：
     sh bin/mqshutdown broker
     sh bin/mqshutdown namesrv
+<br>7: MQ启动时遇到以下问题<br>
+java.lang.IllegalAccessError: class org.apache.rocketmq.common.UtilAll....
+需要runserver.sh最后一行修改以下内容
+$JAVA ${JAVA_OPT} --add-exports=java.base/sun.nio.ch=ALL-UNNAMED $@
+
 # sample
 1:保证金支付接口（POST）：
 http://localhost:8090/bidder-contracts/123/deposit-payment-request
