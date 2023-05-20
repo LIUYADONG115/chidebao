@@ -22,40 +22,38 @@ public class BidderController {
 
     /**
      * 请求支付保证金
-     * @param orderId
+     * @param userId
      * @param paymentDTO
      * @return
      */
     @PostMapping("{id}/deposit-payment-request")
-    public CommonResponse depositPayment(@PathVariable("id") String orderId, @RequestBody PaymentDTO paymentDTO) {
+    public CommonResponse depositPayment(@PathVariable("id") String userId, @RequestBody PaymentDTO paymentDTO) {
 
-        return bidderService.handlePayment(orderId, paymentDTO.getBankAccount(), paymentDTO.getPaymentAmount());
+        return bidderService.handlePayment(userId, paymentDTO.getBankAccount(), paymentDTO.getPaymentAmount());
     }
 
 
     /**
      * 请求签署成交协议
-     * @param orderId
+     * @param userId
      * @param orderSignDTO
      * @return
      */
     @PostMapping("{id}/sign-deal-protocol-request")
-    public CommonResponse dealSign(@PathVariable("id") String orderId, @RequestBody OrderSignDTO orderSignDTO) {
-        System.out.println("接收到的orderId："+orderId);
-        return bidderService.handleSign(orderId, orderSignDTO.getSignName(),orderSignDTO.getSignTime());
+    public CommonResponse dealSign(@PathVariable("id") String userId, @RequestBody OrderSignDTO orderSignDTO) {
+        System.out.println("接收到的orderId："+userId);
+        return bidderService.handleSign(userId, orderSignDTO.getSignName(),orderSignDTO.getSignTime());
     }
 
 
     /**
      * 查看成交协议签署结果
-     * @param orderId
+     * @param userId
      * @return
      */
     @GetMapping("{id}/sign-deal-protocol-request")
-    public CommonResponse getDealSign(@PathVariable("id") String orderId) {
-        System.out.println("接收到的orderId："+orderId);
-        return bidderService.getSignStatus(orderId);
+    public CommonResponse getDealSign(@PathVariable("id") String userId) {
+        System.out.println("接收到的orderId："+userId);
+        return bidderService.getSignStatus(userId);
     }
-
-
 }

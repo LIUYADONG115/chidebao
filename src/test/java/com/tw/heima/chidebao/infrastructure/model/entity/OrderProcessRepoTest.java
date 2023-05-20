@@ -20,11 +20,11 @@ public class OrderProcessRepoTest {
 
     @Test
     public void should_find_all_order_data_when_prepare_insert () {
-        OrderEntity entity = OrderEntity.builder().id(1).orderId("326118").storeName("KFC").paymentAmount(35.42).paymentStatus(1).signStatus(1).build();
+        OrderEntity entity = OrderEntity.builder().id(1).userId("326118").storeName("KFC").paymentAmount(35.42).paymentStatus(1).signStatus(1).build();
         orderProcessRepo.save(entity);
-        OrderEntity originOrder = orderProcessRepo.findByOrderId("326118");
+        OrderEntity originOrder = orderProcessRepo.findByUserId("326118");
 
-        assertThat(originOrder.getOrderId()).isEqualTo("326118");
+        assertThat(originOrder.getUserId()).isEqualTo("326118");
         assertThat(originOrder.getStoreName()).isEqualTo("KFC");
         assertThat(originOrder.getPaymentAmount()).isEqualTo(35.42);
         assertThat(originOrder.getPaymentStatus()).isEqualTo(1);

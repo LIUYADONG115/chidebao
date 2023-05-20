@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static com.tw.heima.chidebao.common.enums.SignStatus.ORDER_NOT_SIGN;
+import static com.tw.heima.chidebao.common.enums.SignStatus.*;
 import static com.tw.heima.chidebao.infrastructure.model.Message.Topic.SIGN_ORDER_TAG;
 import static com.tw.heima.chidebao.infrastructure.model.Message.Topic.SIGN_ORDER_TOPIC;
 
@@ -47,8 +47,8 @@ public class BidderService {
         this.messageRepo = messageRepo;
     }
 
-    public CommonResponse handlePayment(String orderId, String bankAccount, Double paymentAmount) {
-        OrderEntity orderEntity = orderProcessRepo.findByOrderId(orderId);
+    public CommonResponse handlePayment(String userId, String bankAccount, Double paymentAmount) {
+        OrderEntity orderEntity = orderProcessRepo.findByUserId(userId);
         return Optional.ofNullable(orderEntity)
                 .filter(entity -> OrderStatus.ORDER_NOT_PAYMENT.getCode() == entity.getPaymentStatus())
                 .map(entity -> payOrder(entity, bankAccount, paymentAmount))
@@ -83,10 +83,10 @@ public class BidderService {
         return CommonResponse.paymentSuccess();
     }
 
-    public CommonResponse handleSign(String orderId, String signName, String signTime) {
-        OrderEntity orderEntity = orderProcessRepo.findByOrderId(orderId);
+    public CommonResponse handleSign(String userId, String signName, String signTime) {
+        OrderEntity orderEntity = orderProcessRepo.findByUserId(userId);
         return Optional.ofNullable(orderEntity)
-                .filter(entity -> entity.getSignStatus() == ORDER_NOT_SIGN.getCode())
+                .filter(entity -> entity.getSignStatus() == SignStatus.ORDER_NOT_SIGN.getCode())
                 .map(entity -> signOrder(entity, signName, signTime))
                 .orElseGet(() -> CommonResponse.builder().code(MessageInfoType.ORDER_NOT_EXIST.getCode()).message(MessageInfoType.ORDER_NOT_EXIST.getName()).build());
     }
@@ -101,14 +101,14 @@ public class BidderService {
                 SIGN_ORDER_TOPIC,
                 SIGN_ORDER_TAG,
                 LocalDateTime.now(),
-                order.getOrderId(),
+                order.getUserId(),
                 signTime,
                 signName,
                 order.getStoreName());
         MqResponse response = mqProducerService.sendAsyncMsg(message);
         if (HttpStatus.OK.value() == response.getCode()) {
             log.info("MQ发送消息成功，将发送成功的message存储起来，返回正在签署");
-            messageRepo.save(MessageEntity.builder().businessId(order.getOrderId()).content(new ObjectMapper().writeValueAsString(message)).build());
+            messageRepo.save(MessageEntity.builder().businessId(order.getUserId()).content(new ObjectMapper().writeValueAsString(message)).build());
             return CommonResponse.signIng();
         } else {
             log.info("MQ发送消息失败，返回签署失败");
@@ -116,11 +116,16 @@ public class BidderService {
         }
     }
 
-    public CommonResponse getSignStatus(String orderId) {
-        OrderEntity orderEntity = orderProcessRepo.findByOrderId(orderId);
-        if(orderEntity == null){
+    public CommonResponse getSignStatus(String userId) {
+        OrderEntity orderEntity = orderProcessRepo.findByUserId(userId);
+        if(orderEntity == null || orderEntity.getSignStatus() == ORDER_NOT_SIGN.getCode()){
             return CommonResponse.builder().code(MessageInfoType.ORDER_NOT_EXIST.getCode()).message(MessageInfoType.ORDER_NOT_EXIST.getName()).build();
+        }else if(orderEntity.getSignStatus() == ORDER_SIGNING.getCode()){
+            return CommonResponse.builder().code(MessageInfoType.SIGN_ING.getCode()).message(MessageInfoType.SIGN_ING.getName()).build();
+        }else if(orderEntity.getSignStatus() == ORDER_SIGN_SUCCESS.getCode()){
+            return CommonResponse.builder().code(MessageInfoType.SIGN_SUCCEEDED.getCode()).message(MessageInfoType.SIGN_SUCCEEDED.getName()).build();
+        }else {
+            return CommonResponse.builder().code(MessageInfoType.SIGN_FAILED.getCode()).message(MessageInfoType.SIGN_FAILED.getName()).build();
         }
-        return CommonResponse.builder().code(MessageInfoType.SIGN_SUCCEEDED.getCode()).message(MessageInfoType.ORDER_NOT_EXIST.getName()).build();
     }
 }

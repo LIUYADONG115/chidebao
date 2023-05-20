@@ -15,7 +15,7 @@ public class Message {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime messageStartTime;
-    private String orderId;
+    private String userId;
     private String signTime;
     private String signName;
     private String storeName;
@@ -24,7 +24,7 @@ public class Message {
         this.topic = topic;
         this.tag = tag;
         this.messageStartTime = messageStartTime;
-        this.orderId = orderId;
+        this.userId = orderId;
         this.signTime = signTime;
         this.signName = signName;
         this.storeName = storeName;
