@@ -5,7 +5,6 @@ import com.tw.heima.chidebao.common.enums.MessageInfoType;
 import com.tw.heima.chidebao.common.enums.OrderStatus;
 import com.tw.heima.chidebao.common.enums.SignStatus;
 import com.tw.heima.chidebao.controller.model.CommonResponse;
-import com.tw.heima.chidebao.infrastructure.MqResponse;
 import com.tw.heima.chidebao.infrastructure.ThirdPaymentClient;
 import com.tw.heima.chidebao.infrastructure.model.Message;
 import com.tw.heima.chidebao.infrastructure.model.PaymentException;
@@ -15,9 +14,9 @@ import com.tw.heima.chidebao.infrastructure.model.entity.MessageRepo;
 import com.tw.heima.chidebao.infrastructure.model.entity.OrderEntity;
 import com.tw.heima.chidebao.infrastructure.model.entity.OrderProcessRepo;
 import com.tw.heima.chidebao.infrastructure.rocketmq.MQProducerService;
+import com.tw.heima.chidebao.infrastructure.rocketmq.MqException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -47,8 +46,8 @@ public class BidderService {
         this.messageRepo = messageRepo;
     }
 
-    public CommonResponse handlePayment(String userId, String bankAccount, Double paymentAmount) {
-        OrderEntity orderEntity = orderProcessRepo.findByUserId(userId);
+    public CommonResponse handlePayment(String id, String bankAccount, Double paymentAmount) {
+        OrderEntity orderEntity = orderProcessRepo.findByUserId(id);
         return Optional.ofNullable(orderEntity)
                 .filter(entity -> OrderStatus.ORDER_NOT_PAYMENT.getCode() == entity.getPaymentStatus())
                 .map(entity -> payOrder(entity, bankAccount, paymentAmount))
@@ -105,12 +104,12 @@ public class BidderService {
                 signTime,
                 signName,
                 order.getStoreName());
-        MqResponse response = mqProducerService.sendAsyncMsg(message);
-        if (HttpStatus.OK.value() == response.getCode()) {
+        try {
+            mqProducerService.sendAsyncMsg(message);
             log.info("MQ发送消息成功，将发送成功的message存储起来，返回正在签署");
             messageRepo.save(MessageEntity.builder().businessId(order.getUserId()).content(new ObjectMapper().writeValueAsString(message)).build());
             return CommonResponse.signIng();
-        } else {
+        } catch (MqException exception) {
             log.info("MQ发送消息失败，返回签署失败");
             return CommonResponse.error(MessageInfoType.SIGN_FAILED);
         }
@@ -118,13 +117,13 @@ public class BidderService {
 
     public CommonResponse getSignStatus(String userId) {
         OrderEntity orderEntity = orderProcessRepo.findByUserId(userId);
-        if(orderEntity == null || orderEntity.getSignStatus() == ORDER_NOT_SIGN.getCode()){
+        if (orderEntity == null || orderEntity.getSignStatus() == ORDER_NOT_SIGN.getCode()) {
             return CommonResponse.builder().code(MessageInfoType.ORDER_NOT_EXIST.getCode()).message(MessageInfoType.ORDER_NOT_EXIST.getName()).build();
-        }else if(orderEntity.getSignStatus() == ORDER_SIGNING.getCode()){
+        } else if (orderEntity.getSignStatus() == ORDER_SIGNING.getCode()) {
             return CommonResponse.builder().code(MessageInfoType.SIGN_ING.getCode()).message(MessageInfoType.SIGN_ING.getName()).build();
-        }else if(orderEntity.getSignStatus() == ORDER_SIGN_SUCCESS.getCode()){
+        } else if (orderEntity.getSignStatus() == ORDER_SIGN_SUCCESS.getCode()) {
             return CommonResponse.builder().code(MessageInfoType.SIGN_SUCCEEDED.getCode()).message(MessageInfoType.SIGN_SUCCEEDED.getName()).build();
-        }else {
+        } else {
             return CommonResponse.builder().code(MessageInfoType.SIGN_FAILED.getCode()).message(MessageInfoType.SIGN_FAILED.getName()).build();
         }
     }

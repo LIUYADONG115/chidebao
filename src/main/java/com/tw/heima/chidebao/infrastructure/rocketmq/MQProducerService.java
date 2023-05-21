@@ -1,6 +1,7 @@
 package com.tw.heima.chidebao.infrastructure.rocketmq;
 
 import com.alibaba.fastjson.JSON;
+import com.tw.heima.chidebao.common.enums.MessageInfoType;
 import com.tw.heima.chidebao.controller.model.User;
 import com.tw.heima.chidebao.infrastructure.MqResponse;
 import com.tw.heima.chidebao.infrastructure.model.Message;
@@ -56,9 +57,11 @@ public class MQProducerService {
             public void onSuccess(SendResult sendResult) {
                 // 处理消息发送成功逻辑
             }
+
             @Override
             public void onException(Throwable throwable) {
                 // 处理消息发送异常逻辑
+                throw new MqException(MessageInfoType.MQ_EXCEPTION);
             }
         });
         return MqResponse.builder().code(200).message("发送成功").build();

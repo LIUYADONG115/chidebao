@@ -13,6 +13,7 @@ public enum MessageInfoType {
     ORDER_NOT_EXIST("300", "请先办理竞买登记"),
     NOT_SUFFICIENT_FUNDS("400", "支付失败，账户余额不足"),
     PAYMENT_SYSTEM_EXCEPTION("500", "系统异常，请稍后重试"),
+    MQ_EXCEPTION("600", "系统异常，请稍后重试"),
 
     SIGN_ING("200", "成交协议签约已受理"),
     SIGN_SUCCEEDED("200", "成交协议签署成功"),

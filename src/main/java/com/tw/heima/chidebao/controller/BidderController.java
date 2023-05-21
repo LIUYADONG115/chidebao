@@ -22,14 +22,14 @@ public class BidderController {
 
     /**
      * 请求支付保证金
-     * @param userId
+     * @param id
      * @param paymentDTO
      * @return
      */
     @PostMapping("{id}/deposit-payment-request")
-    public CommonResponse depositPayment(@PathVariable("id") String userId, @RequestBody PaymentDTO paymentDTO) {
+    public CommonResponse depositPayment(@PathVariable("id") String id, @RequestBody PaymentDTO paymentDTO) {
 
-        return bidderService.handlePayment(userId, paymentDTO.getBankAccount(), paymentDTO.getPaymentAmount());
+        return bidderService.handlePayment(id, paymentDTO.getBankAccount(), paymentDTO.getPaymentAmount());
     }
 
 
