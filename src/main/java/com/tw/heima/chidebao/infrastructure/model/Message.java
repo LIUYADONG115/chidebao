@@ -15,16 +15,16 @@ public class Message {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime messageStartTime;
-    private String userId;
+    private String contractId;
     private String signTime;
     private String signName;
     private String storeName;
 
-    public Message(String topic, String tag, LocalDateTime messageStartTime, String userId, String signTime, String signName, String storeName) {
+    public Message(String topic, String tag, LocalDateTime messageStartTime, String contractId, String signTime, String signName, String storeName) {
         this.topic = topic;
         this.tag = tag;
         this.messageStartTime = messageStartTime;
-        this.userId = userId;
+        this.contractId = contractId;
         this.signTime = signTime;
         this.signName = signName;
         this.storeName = storeName;

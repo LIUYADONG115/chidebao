@@ -47,7 +47,7 @@ public class BidderService {
     }
 
     public CommonResponse handlePayment(String id, String bankAccount, Double paymentAmount) {
-        OrderEntity orderEntity = orderProcessRepo.findByUserId(id);
+        OrderEntity orderEntity = orderProcessRepo.findByContractId(id);
         return Optional.ofNullable(orderEntity)
                 .filter(entity -> OrderStatus.ORDER_NOT_PAYMENT.getCode() == entity.getPaymentStatus())
                 .map(entity -> payOrder(entity, bankAccount, paymentAmount))
@@ -82,8 +82,8 @@ public class BidderService {
         return CommonResponse.paymentSuccess();
     }
 
-    public CommonResponse handleSign(String userId, String signName, String signTime) {
-        OrderEntity orderEntity = orderProcessRepo.findByUserId(userId);
+    public CommonResponse handleSign(String contractId, String signName, String signTime) {
+        OrderEntity orderEntity = orderProcessRepo.findByContractId(contractId);
         return Optional.ofNullable(orderEntity)
                 .filter(entity -> entity.getSignStatus() == SignStatus.ORDER_NOT_SIGN.getCode())
                 .map(entity -> signOrder(entity, signName, signTime))
@@ -100,14 +100,14 @@ public class BidderService {
                 SIGN_ORDER_TOPIC,
                 SIGN_ORDER_TAG,
                 LocalDateTime.now(),
-                order.getUserId(),
+                order.getContractId(),
                 signTime,
                 signName,
                 order.getStoreName());
         try {
             mqProducerService.sendAsyncMsg(message);
             log.info("MQ发送消息成功，将发送成功的message存储起来，返回正在签署");
-            messageRepo.save(MessageEntity.builder().businessId(order.getUserId()).content(new ObjectMapper().writeValueAsString(message)).build());
+            messageRepo.save(MessageEntity.builder().businessId(order.getContractId()).content(new ObjectMapper().writeValueAsString(message)).build());
             return CommonResponse.signIng();
         } catch (MqException exception) {
             log.info("MQ发送消息失败，返回签署失败");
@@ -115,8 +115,8 @@ public class BidderService {
         }
     }
 
-    public CommonResponse getSignStatus(String userId) {
-        OrderEntity orderEntity = orderProcessRepo.findByUserId(userId);
+    public CommonResponse getSignStatus(String contractId) {
+        OrderEntity orderEntity = orderProcessRepo.findByContractId(contractId);
         if (orderEntity == null || orderEntity.getSignStatus() == ORDER_NOT_SIGN.getCode()) {
             return CommonResponse.builder().code(MessageInfoType.ORDER_NOT_EXIST.getCode()).message(MessageInfoType.ORDER_NOT_EXIST.getName()).build();
         } else if (orderEntity.getSignStatus() == ORDER_SIGNING.getCode()) {

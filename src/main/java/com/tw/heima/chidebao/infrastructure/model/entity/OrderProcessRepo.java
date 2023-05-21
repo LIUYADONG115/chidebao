@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OrderProcessRepo extends JpaRepository<OrderEntity, Integer> {
 
-    OrderEntity findByUserId(String userId);
+    OrderEntity findByContractId(String contractId);
 }

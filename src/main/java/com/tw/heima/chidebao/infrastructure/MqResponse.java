@@ -10,5 +10,4 @@ import lombok.Setter;
 public class MqResponse {
     private Integer code;
     private String message;
-
 }

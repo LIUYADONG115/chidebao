@@ -44,7 +44,7 @@ public class MQConsumerService {
         public void onMessage(String str) {
             log.info("监听到消息：str={}", str);
             Message message = JSON.parseObject(str,Message.class);
-            OrderEntity order = orderProcessRepo.findByUserId(message.getUserId());
+            OrderEntity order = orderProcessRepo.findByContractId(message.getContractId());
             order.setSignStatus(SignStatus.ORDER_SIGN_SUCCESS.getCode());
             System.out.println("存储签署成功的orderEntity："+order.toString());
             orderProcessRepo.save(order);

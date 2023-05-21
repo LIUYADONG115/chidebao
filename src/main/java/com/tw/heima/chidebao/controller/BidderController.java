@@ -35,25 +35,25 @@ public class BidderController {
 
     /**
      * 请求签署成交协议
-     * @param userId
+     * @param contractId
      * @param orderSignDTO
      * @return
      */
     @PostMapping("{id}/sign-deal-protocol-request")
-    public CommonResponse dealSign(@PathVariable("id") String userId, @RequestBody OrderSignDTO orderSignDTO) {
-        System.out.println("接收到的orderId："+userId);
-        return bidderService.handleSign(userId, orderSignDTO.getSignName(),orderSignDTO.getSignTime());
+    public CommonResponse dealSign(@PathVariable("id") String contractId, @RequestBody OrderSignDTO orderSignDTO) {
+        System.out.println("接收到的orderId："+contractId);
+        return bidderService.handleSign(contractId, orderSignDTO.getSignName(),orderSignDTO.getSignTime());
     }
 
 
     /**
      * 查看成交协议签署结果
-     * @param userId
+     * @param contractId
      * @return
      */
     @GetMapping("{id}/sign-deal-protocol-request")
-    public CommonResponse getDealSign(@PathVariable("id") String userId) {
-        System.out.println("接收到的orderId："+userId);
-        return bidderService.getSignStatus(userId);
+    public CommonResponse getDealSign(@PathVariable("id") String contractId) {
+        System.out.println("接收到的orderId："+contractId);
+        return bidderService.getSignStatus(contractId);
     }
 }

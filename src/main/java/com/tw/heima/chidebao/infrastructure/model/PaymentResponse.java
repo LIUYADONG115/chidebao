@@ -6,8 +6,6 @@ import lombok.Getter;
 @Builder
 @Getter
 public class PaymentResponse {
-
     private Integer code;
     private String message;
-
 }
