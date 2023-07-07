@@ -1,6 +1,8 @@
 package com.tw.heima.paiyipai.leetCode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -10,15 +12,14 @@ import java.util.List;
  */
 public class Test {
     public static void main(String[] args) {
-        List list = new ArrayList<String>();
-        list.add("a");
-        list.add("b");
-        System.out.println(list.size());
+        int[] arr = {5, 2, 8, 1, 6, 3};
 
-        int[] nums = new int[]{1, 2, 3, 4};
-        System.out.println(nums.length);
-//        for (int i = 0; i < nums.length-1; i++) {
-//            System.out.println(nums[i]);
-//        }
+        // 使用自定义的降序比较器
+        Arrays.sort(arr);
+
+        // 打印排序后的数组
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
     }
 }

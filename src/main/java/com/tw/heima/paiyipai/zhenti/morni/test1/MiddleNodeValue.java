@@ -39,7 +39,7 @@ public class MiddleNodeValue {
      * 输入：
      * 11000 3
      * 86892 8 22309
-     * 22309 6 - 1
+     * 22309 6 -1
      * 11000 3 86892
      * 输出：
      * 8
@@ -49,9 +49,9 @@ public class MiddleNodeValue {
         Scanner sc = new Scanner(System.in);
         // 链表首节点的地址、节点总数N
         String firstLine = sc.nextLine();
-        System.out.println(firstLine);
+        //System.out.println(firstLine);
         String[] firstLines = firstLine.split("\\s");
-        System.out.println(Arrays.toString(firstLines));
+        //System.out.println(Arrays.toString(firstLines));
 
         // 输入示例数据
         String headAddress = firstLines[0];
@@ -93,7 +93,7 @@ public class MiddleNodeValue {
 
     public static void printList(Node tmp) {
         while (tmp != null) {
-            System.out.println(tmp.value);
+            //System.out.println(tmp.value);
             tmp = tmp.next;
         }
     }

@@ -11,6 +11,29 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MoneyConversion {
+    /**
+     * 假设货币转换关系：
+     * 100CNY=1825JPY=123HKD=14EUR=12GBP,
+     * 1CNY=100fen, 1HKD=100cents, 1JPY=100sen, 1EUR=100eurocents, 1GBP=100pence.
+     * 将给定的带单位金额转换为 fen 汇总后输出，结果只保留整数，小数舍弃。
+     *
+     * 输入：
+     * 第一行是N，N 表示记录数。O<N<100。
+     * 之后N行每行表示一个带单位金额，格式为数字＋单位，可能是单独元，或者单独分，或者元与分的组合。
+     *
+     * 输出：。
+     * 一个整数数字，不带小数，不带单位。
+     *
+     * 示例1：
+     * 输入：
+     * 3
+     * 1CNY
+     * 20CNY53fen
+     * 53HKD87cents
+     * 输出：
+     * 6532
+     * @param args
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int N = scanner.nextInt();  // 记录数

@@ -25,6 +25,14 @@ public class ParenthesesLength {
 
     }
 
+    /**
+     * 对于括号计算类题目，我们往往可以用栈来思考。
+     * 遍历字符串，如果遇到了一个左括号，那么就将其入栈；如果遇到了一个与栈顶同类型的右括号，那么就弹出栈顶的左括号，与该有括号匹配。这一过程中的栈的大小的最大值，即为
+     * S的嵌套深度。
+     * 若遍历完之后，栈中元素不为0，则说明存在无效字符串，输出0.
+     * @param s
+     * @return
+     */
     public static int length(String s) {
         int maxDepth = 0;
         int currentDepth = 0;
