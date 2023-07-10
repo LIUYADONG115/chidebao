@@ -1,3 +1,20 @@
+Deque模拟队列先进先出        
+Deque<Character> deque = new LinkedList<>();
+        deque.add('a');
+        deque.add('b');
+        deque.add('c');
+
+        System.out.println(deque.peek());
+
+Deque模拟栈先进后出  
+        Deque<Character> deque1 = new LinkedList<>();
+        deque1.push('a');
+        deque1.push('b');
+        deque1.push('c');
+
+        System.out.println(deque1.peek());
+
+
 # paiyipai
 heima code
 

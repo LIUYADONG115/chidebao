@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  */
 public class Common {
     public static void main(String[] args) {
-        PatternLean5();
+        PatternLean1();
     }
 
     public static void ArrayLearn() {
@@ -20,25 +20,50 @@ public class Common {
         Arrays.toString(intsNew);
     }
 
+    public static void StackAndDequeLearn(){
+        Deque<Character> deque = new LinkedList<>();
+        deque.add('A');
+        deque.add('b');
+        deque.add('c');
+        //A
+        System.out.println(deque.pop());
+
+        Deque<Character> deque1 = new LinkedList<>();
+        deque1.push('A');
+        deque1.push('b');
+        deque1.push('c');
+        //c
+        System.out.println(deque1.pop());
+
+        Vector<Integer> vector = new Vector<>();
+        vector.add(1);
+        vector.add(2);
+        vector.add(3);
+        //[1, 2, 3]
+        System.out.println(vector);
+    }
+
     public static void copyOfArray(String[] args) {
-        int[] a = new int[]{1,2};
-        Map<String,int[]> map =new HashMap<>();
-        map.put("a",a);
+        int[] a = new int[]{1, 2};
+        Map<String, int[]> map = new HashMap<>();
+        map.put("a", a);
         int[] result = map.get("a");
-        int[] newArray = Arrays.copyOf(result, result.length+2);
+        int[] newArray = Arrays.copyOf(result, result.length + 2);
         System.out.println(Arrays.toString(newArray));
-        newArray[newArray.length-2] = 3;
-        newArray[newArray.length-1] = 4;
+        newArray[newArray.length - 2] = 3;
+        newArray[newArray.length - 1] = 4;
         System.out.println(Arrays.toString(newArray));
     }
 
     public static void RegexLearn() {
         String str = "12ab34df56";
         String[] strs = str.split("\\d+");
+        //[, ab, df]
         System.out.println(Arrays.toString(strs));
 
         // 去除空字符串 方法1
         Object[] objects = Arrays.stream(strs).filter(it -> !it.isEmpty()).toArray();
+        //[ab, df]
         System.out.println(Arrays.toString(objects));
 
         //去除空字符串 方法2
@@ -46,6 +71,7 @@ public class Common {
         List<String> list = new ArrayList<>(Arrays.asList(strs));
         list.removeIf(String::isEmpty);
         String[] sts2 = list.toArray(new String[0]);
+        //[ab, df]
         System.out.println(Arrays.toString(sts2));
     }
 
@@ -56,6 +82,7 @@ public class Common {
         //[f, , , , fg]
         String[] strs2 = s1.split("o+?");
         System.out.println(Arrays.toString(strs1));
+        System.out.println(strs1[1].length());
 
         String s2 = "windows 2000";
     }
@@ -64,6 +91,12 @@ public class Common {
     //使用正则表达式提取数字和字符串
     public static void PatternLean1() {
         String record = "20CNY53fen";
+
+        Pattern pattern1 = Pattern.compile("C[NY]");
+        Matcher matcher1 = pattern1.matcher(record);
+        while (matcher1.find()){
+            System.out.println(matcher1.group());
+        }
 
         // 匹配数字部分
         Pattern pattern = Pattern.compile("[0-9]+");
@@ -88,7 +121,7 @@ public class Common {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
 
-        while (matcher.find()){
+        while (matcher.find()) {
             String str = matcher.group();
             System.out.println(str);
         }
@@ -101,7 +134,7 @@ public class Common {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
 
-        while (matcher.find()){
+        while (matcher.find()) {
             String str = matcher.group();
             System.out.println(str);
         }
