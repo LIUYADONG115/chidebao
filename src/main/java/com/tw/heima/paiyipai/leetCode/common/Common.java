@@ -21,6 +21,7 @@ public class Common {
     }
 
     public static void StackAndDequeLearn(){
+        //Deque模拟堆
         Deque<Character> deque = new LinkedList<>();
         deque.add('A');
         deque.add('b');
@@ -28,6 +29,7 @@ public class Common {
         //A
         System.out.println(deque.pop());
 
+        //Deque模拟栈
         Deque<Character> deque1 = new LinkedList<>();
         deque1.push('A');
         deque1.push('b');
@@ -35,6 +37,7 @@ public class Common {
         //c
         System.out.println(deque1.pop());
 
+        //Vector动态数组
         Vector<Integer> vector = new Vector<>();
         vector.add(1);
         vector.add(2);

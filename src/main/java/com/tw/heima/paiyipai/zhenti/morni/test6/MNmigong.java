@@ -1,15 +1,13 @@
-package com.tw.heima.paiyipai.zhenti.morni.test5;
+package com.tw.heima.paiyipai.zhenti.morni.test6;
+
+import java.util.Scanner;
 
 /**
  * @author yadong.liu
  * @company thoughtworks
- * @create 2023−07-05 5:25 下午
+ * @create 2023−07-10 6:34 下午
  */
-
-import java.util.*;
-
-
-public class MazeSolver2 {
+public class MNmigong {
     static int row; // 行数
     static int col; // 列数
     static int wallNum; // 墙的数量
@@ -19,7 +17,7 @@ public class MazeSolver2 {
     /**
      * 假设一个大小为 MxN的方格迷宫(O<M,N<=1000)，每个方格可以用(x,y)描述。
      * 入口在(0,0)，出口在(M-1,N-1)。用例保证挑战者可以从入口走到出口。
-     * 迷宫中有K个墙壁(O<=K<M*N)，且挑战者只能向右或向下前进，因此在迷宫中存在一些挑战者不可达的位置，记为 P，也存在一些挑战者一旦到达就无法走到出口的位置，记为Q。
+     * 迷宫中有K个墙壁(O<=K<M*N)，且挑战者只能向右或向上前进，因此在迷宫中存在一些挑战者不可达的位置，记为 P，也存在一些挑战者一旦到达就无法走到出口的位置，记为Q。
      * 给定迷宫大小和墙壁位置，请计算P和Q分别有多少个。
      *
      * 输入：
@@ -106,4 +104,3 @@ public class MazeSolver2 {
         return matrix[x][y] == 2; // 返回当前方格是否可达
     }
 }
-

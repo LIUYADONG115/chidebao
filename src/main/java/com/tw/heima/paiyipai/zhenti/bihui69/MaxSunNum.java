@@ -25,7 +25,7 @@ public class MaxSunNum {
         int length = Integer.parseInt(scanner.nextLine());
 
         // 输入数字序列
-        long[] numbers = Arrays.stream(scanner.nextLine().split(" ")).mapToLong(Long::parseLong).toArray();
+        long[] numbers = Arrays.stream(scanner.nextLine().split("\\s")).mapToLong(Long::parseLong).toArray();
 
         // 左数组的和
         long leftSum = 0;
@@ -44,7 +44,7 @@ public class MaxSunNum {
             // 更新右数组的和
             rightSum -= numbers[i];
 
-            // 计算当前分割方案的差值
+            // 计算当前分割方案的差值,Math.abs(num)计算绝对值
             long difference = Math.abs(leftSum - rightSum);
 
             // 更新差值的最大取值
