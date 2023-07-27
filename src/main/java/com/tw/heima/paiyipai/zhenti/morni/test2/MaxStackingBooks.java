@@ -55,7 +55,7 @@ public class MaxStackingBooks {
         });
 
         System.out.println(Arrays.toString(books));
-
+        // [2,3].[4,3],[6,7],[13,12],[23,21]
         int n = books.length;
         int[] dp = new int[n];
         Arrays.fill(dp, 1);
